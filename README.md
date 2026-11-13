@@ -13,10 +13,23 @@ provably fair Keno game, tested end to end against a simulated casino wallet.
 | `src/games/keno*.ts` | Keno rules, exact maths, generated paytable (`scripts/keno-paytable.ts`) |
 | `src/money.ts` | Money as integer micro-units; wire amounts in whole cents |
 | `src/crypto.ts` | Encryption of the casino's player id at rest; per-casino pseudonyms |
-| `src/api/server.ts` | Player-facing HTTP API |
+| `src/api/server.ts` | Player-facing HTTP API; serves the game screen |
+| `public/keno.*` | The Keno game screen (plain HTML, CSS and JavaScript; talks only to the API) |
+| `scripts/demo.ts` | One-command demo: RGS plus simulated casino |
 | `src/db/schema.sql` | Postgres schema |
 | `sim/casino.ts` | Simulated casino wallet with fault injection (tests and demos only) |
 | `test/` | Unit tests, end-to-end tests, chaos test, reconciliation |
+
+## Play it (demo)
+
+```sh
+npm install && createdb rgs    # once
+npm run demo                   # then open http://localhost:8080/keno
+```
+
+The demo runs the RGS and a simulated casino wallet together; every page load gets a fresh player with 1,000.00 of
+play money. A real casino launches the game as `/keno?operator=<id>&key=<one-time key>`; the demo launch route
+exists only in demo mode.
 
 ## Run it
 
@@ -47,6 +60,8 @@ curl -X POST localhost:8080/api/play -H 'Authorization: Bearer <sessionToken>' -
 | GET | `/api/round/:id` | | Bearer token |
 | POST | `/api/fairness/rotate` | `{ clientSeed? }` | Bearer token. Reveals the old server seed |
 | POST | `/api/fairness/verify-keno` | `{ serverSeed, clientSeed, nonce, picks }` | Public checker |
+| GET | `/api/games/keno` | | Rules and paytable |
+| GET | `/keno` | | The game screen |
 
 Errors: `{ "error": { "code", "message" } }`.
 

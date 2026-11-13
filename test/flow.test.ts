@@ -168,3 +168,19 @@ test('bad input and bad sessions are refused', async () => {
     assert.equal(h.casino.txs.size, 0);
   } finally { await h.close(); }
 });
+
+test('game screen and rules: served with security headers; demo launch absent outside demo mode', async () => {
+  const h = await setup();
+  try {
+    const page = await fetch(h.base + '/keno');
+    assert.equal(page.status, 200);
+    assert.match(page.headers.get('content-security-policy') ?? '', /script-src 'self'/);
+    assert.match(await page.text(), /<script src="\/keno.js">/);
+    assert.equal((await fetch(h.base + '/keno.js')).status, 200);
+    const rules = await call(h.base, 'GET', '/api/games/keno');
+    assert.equal(rules.body.numbers, 40);
+    assert.equal(rules.body.paytable['5'].length, 6);
+    assert.equal((await call(h.base, 'POST', '/demo/launch', {})).status, 404);
+    assert.equal((await fetch(h.base + '/../package.json')).status, 404);
+  } finally { await h.close(); }
+});

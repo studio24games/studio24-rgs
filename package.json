@@ -4,15 +4,24 @@
   "private": true,
   "description": "Studio24's own Remote Gaming Server (pilot: wallet engine + provably fair Keno)",
   "type": "module",
-  "engines": { "node": ">=22.18" },
+  "engines": {
+    "node": ">=22.18"
+  },
   "scripts": {
     "start": "node src/main.ts",
     "sim-casino": "node sim/casino.ts",
     "typecheck": "tsc --noEmit",
     "test": "node --test --test-concurrency=1 test/*.test.ts",
     "keno:rtp": "node scripts/keno-rtp.ts",
-    "chaos": "node scripts/chaos.ts"
+    "chaos": "node scripts/chaos.ts",
+    "demo": "node scripts/demo.ts"
   },
-  "dependencies": { "pg": "^8.23.1" },
-  "devDependencies": { "@types/node": "^22", "@types/pg": "^8", "typescript": "~5.6" }
+  "dependencies": {
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/pg": "^8",
+    "typescript": "~5.6"
+  }
 }

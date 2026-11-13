@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1424">
+  <title>Keno · Studio24</title>
+  <link rel="stylesheet" href="/keno.css">
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div class="brand"><span class="logo" aria-hidden="true">S24</span><h1>Keno</h1></div>
+      <div class="balance" aria-live="polite"><span class="label">Balance</span><strong id="balance">—</strong></div>
+    </header>
+
+    <section class="board-wrap">
+      <div id="board" class="board" aria-label="Pick up to 10 numbers"></div>
+      <div id="banner" class="banner" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="pays" aria-label="Paytable">
+      <div class="row-head"><span>Pays for <strong id="pickCount">0</strong> picks</span><span class="muted" id="rtp"></span></div>
+      <div id="paytable" class="paytable"></div>
+    </section>
+
+    <section class="controls">
+      <div class="bet">
+        <label for="bet">Bet</label>
+        <div class="stepper">
+          <button type="button" id="betDown" aria-label="Lower bet">−</button>
+          <output id="bet" aria-live="polite">1.00</output>
+          <button type="button" id="betUp" aria-label="Raise bet">+</button>
+        </div>
+      </div>
+      <div class="quick">
+        <button type="button" id="random">Random</button>
+        <button type="button" id="clear">Clear</button>
+      </div>
+      <button type="button" id="play" class="play" disabled>Pick numbers</button>
+    </section>
+
+    <section class="panels">
+      <details id="historyPanel" open>
+        <summary>Last rounds</summary>
+        <ol id="history" class="history"><li class="muted">No rounds yet.</li></ol>
+      </details>
+      <details id="fairPanel">
+        <summary>Provably fair</summary>
+        <p class="muted small">Each round's numbers come from a server seed fixed before you bet, your client seed and a round number.
+          The server seed is shown only as its hash until you change seeds; then it is revealed so you can check every round.</p>
+        <dl class="kv">
+          <dt>Server seed hash</dt><dd id="seedHash" class="mono">—</dd>
+          <dt>Client seed</dt><dd><input id="clientSeed" class="mono" maxlength="64" spellcheck="false" aria-label="Client seed"></dd>
+          <dt>Next round number</dt><dd id="nonce" class="mono">—</dd>
+        </dl>
+        <button type="button" id="rotate" class="secondary">Change seeds and reveal the old one</button>
+        <div id="revealed" class="revealed" hidden>
+          <dl class="kv">
+            <dt>Revealed server seed</dt><dd id="revSeed" class="mono"></dd>
+            <dt>Its hash</dt><dd id="revHash" class="mono"></dd>
+          </dl>
+          <button type="button" id="verify" class="secondary">Check my last round with it</button>
+          <p id="verifyResult" class="small"></p>
+        </div>
+      </details>
+    </section>
+    <p class="foot muted small" id="mode"></p>
+  </main>
+  <script src="/keno.js"></script>
+</body>
+</html>
